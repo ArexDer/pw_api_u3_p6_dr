@@ -1,5 +1,7 @@
 package com.edu.uce.pw.api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,11 @@ public class EstudianteServiceImpl implements IEstudianteService {
 	@Override
 	public void guardar(Estudiante estudiante) {
 		this.estudianteRepository.insertar(estudiante);
+	}
+
+	@Override
+	public List<Estudiante> buscarGenero(String genero) {
+		return this.estudianteRepository.seleccionarGenero(genero);
 	}
 
 	
