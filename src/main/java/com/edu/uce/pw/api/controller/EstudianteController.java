@@ -68,24 +68,45 @@ public class EstudianteController {
 
 	}
 
-	// http://localhost:8080/API/v1.0/Matricula/estudiantes/borrar
-	@DeleteMapping(path = "/borrar")
-	public void borrar() {
-		this.estudianteService.borrar(2);
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/borrar/{id}
+	@DeleteMapping(path = "/borrar/{id}")
+	public void borrar(@PathVariable Integer id) {
+        System.out.println("Borrar");
+		this.estudianteService.borrar(id);
 
 	}
 
-	// http://localhost:8080/API/v1.0/Matricula/estudiantes/buscar
-	@GetMapping(path = "/buscar")
-	public Estudiante buscar() {
-		return this.estudianteService.buscar(2);
+	// http://localhost:8082/API/v1.0/Matricula/estudiantes/buscar/5/nuevo/prueba
+	@GetMapping(path = "/buscar/{id}/nuevo/{dato}")
+	public Estudiante buscar(@PathVariable Integer id,@PathVariable String dato) {
+		System.out.println("DATO: "+dato);
+		return this.estudianteService.buscar(id);
 
 	}
 
+    // http://localhost:8082/API/v1.0/Matricula/estudiantes/bucarByGenero?genero=F&edad=27
 	@GetMapping(path = "/bucarByGenero")
-	public List<Estudiante> buscarByGenero(@RequestParam String genero) {
+	public List<Estudiante> buscarByGenero(@RequestParam String genero,@RequestParam Integer edad) {
+		System.out.println("Edad:"+edad);
 		List<Estudiante> lista = this.estudianteService.buscarPorGenero(genero);
 		return lista;
 	}
+
+
+// --------------------------------------------------------------
+// USO LOS DOS EL PATH Y REQUEST
+	// http://localhost:8082/API/v1.0/Matricula/estudiantes/buscarMixto/5?prueba=HolaMundo
+	@GetMapping(path = "/buscarMixto/{id}")
+	public Estudiante buscarMixto(@PathVariable Integer id,@RequestParam String prueba) {
+		System.out.println("DATO: "+id);
+		System.out.println("DATO: "+prueba);
+
+		return this.estudianteService.buscar(id);
+
+	}
+
+
+
+
 
 }

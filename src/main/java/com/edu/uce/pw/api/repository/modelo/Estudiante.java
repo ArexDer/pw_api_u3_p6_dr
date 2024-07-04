@@ -68,8 +68,8 @@ public class Estudiante {
 	}
 
 
-	public Integer getGenero() {
-		return id;
+	public String getGenero() {
+		return genero;
 	}
 
 	public void setGenero(String genero) {
