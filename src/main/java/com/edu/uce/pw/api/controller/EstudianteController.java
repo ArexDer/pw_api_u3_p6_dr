@@ -33,53 +33,46 @@ public class EstudianteController {
 	private IEstudianteService estudianteService;
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/guardar
+	// NIVEL 1  http://localhost:8080/API/v1.0/Matricula/estudiantes
 	@PostMapping(path = "/guardar")
 	public void guardad(@RequestBody Estudiante est) {
-		// SIEMPRE ES CORRECTO ENVIAR UN OBJETO
-		/*
-		 * Estudiante est =new Estudiante();
-		 * est.setNombre("Diego");
-		 * est.setApellido("Rivas"); //AÑO, MES ,DIA, HORA, MINUTOS
-		 * est.setFechaNacimiento(LocalDateTime.of(1997, 01, 8, 12,10));
-		 * this.estudianteService.guardar(est);
-		 */
 		this.estudianteService.guardar(est);
 
 	}
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
-	@PatchMapping(path = "/actualizarParcial")
-	public void actualizarParcial() {
-		Estudiante est = this.estudianteService.buscar(1);
-		est.setNombre("Alexander");
+
+	//Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/6
+	@PatchMapping(path = "/{id}")
+	public void actualizarParcial(@RequestBody Estudiante est, @PathVariable Integer id) {
+		est.setId(id);
+	
+		this.estudianteService.actualizar(est);
+
+	}
+
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizar/5
+
+	@PutMapping(path = "/{id}")
+	public void actualizar(@RequestBody Estudiante est, @PathVariable Integer id) {
+		est.setId(id);
 
 		this.estudianteService.actualizar(est);
 
 	}
 
-	// http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizar
-	@PutMapping(path = "/actualizar")
-	public void actualizar() {
-		Estudiante est = this.estudianteService.buscar(1);
-		est.setNombre("Alexander");
-		est.setApellido("Haro"); // AÑO, MES ,DIA, HORA, MINUTOS
-		est.setFechaNacimiento(LocalDateTime.of(2024, 01, 8, 12, 10));
-		this.estudianteService.actualizar(est);
-
-	}
-
-	// http://localhost:8080/API/v1.0/Matricula/estudiantes/borrar/{id}
-	@DeleteMapping(path = "/borrar/{id}")
+	//Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/8
+	@DeleteMapping(path = "/{id}")
 	public void borrar(@PathVariable Integer id) {
         System.out.println("Borrar");
 		this.estudianteService.borrar(id);
 
 	}
 
-	// http://localhost:8082/API/v1.0/Matricula/estudiantes/buscar/5/nuevo/prueba
-	@GetMapping(path = "/buscar/{id}/nuevo/{dato}")
-	public Estudiante buscar(@PathVariable Integer id,@PathVariable String dato) {
-		System.out.println("DATO: "+dato);
+	// http://localhost:8082/API/v1.0/Matricula/estudiantes/buscar/5
+	@GetMapping(path = "/{id}")
+	public Estudiante buscar(@PathVariable Integer id) {
+		
 		return this.estudianteService.buscar(id);
 
 	}
