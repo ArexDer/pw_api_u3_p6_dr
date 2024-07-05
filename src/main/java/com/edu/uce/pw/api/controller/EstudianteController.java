@@ -33,35 +33,53 @@ public class EstudianteController {
 	private IEstudianteService estudianteService;
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/guardar
-	// NIVEL 1  http://localhost:8080/API/v1.0/Matricula/estudiantes
-	@PostMapping(path = "/guardar")
+
+	// NIVEL 1  http://localhost:8082/API/v1.0/Matricula/estudiantes
+	@PostMapping()
 	public void guardad(@RequestBody Estudiante est) {
+
 		this.estudianteService.guardar(est);
 
 	}
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
 
-	//Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/6
+	//Nivel 1: http://localhost:8082/API/v1.0/Matricula/estudiantes/6
 	@PatchMapping(path = "/{id}")
 	public void actualizarParcial(@RequestBody Estudiante est, @PathVariable Integer id) {
 		est.setId(id);
-	
+
+		Estudiante estudiante2 = this.estudianteService.buscar(est.getId());
+ 
+        if (est.getNombre() != null) {
+            estudiante2.setNombre(est.getNombre());
+        }
+        if (est.getApellido() != null) {
+            estudiante2.setApellido(est.getApellido());
+        }
+        if (est.getFechaNacimiento() != null) {
+            estudiante2.setFechaNacimiento(est.getFechaNacimiento());
+        }
+        this.estudianteService.actualizar(estudiante2);
+		
+
+
 		this.estudianteService.actualizar(est);
 
 	}
 
-	// http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizar/5
+	// Nivel 1: http://localhost:8082/API/v1.0/Matricula/estudiantes/9
 
 	@PutMapping(path = "/{id}")
 	public void actualizar(@RequestBody Estudiante est, @PathVariable Integer id) {
 		est.setId(id);
 
+
 		this.estudianteService.actualizar(est);
 
 	}
 
-	//Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/8
+	//Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/8
 	@DeleteMapping(path = "/{id}")
 	public void borrar(@PathVariable Integer id) {
         System.out.println("Borrar");
@@ -69,18 +87,21 @@ public class EstudianteController {
 
 	}
 
-	// http://localhost:8082/API/v1.0/Matricula/estudiantes/buscar/5
+	// Nivel 1: http://localhost:8082/API/v1.0/Matricula/estudiantes/4
 	@GetMapping(path = "/{id}")
-	public Estudiante buscar(@PathVariable Integer id) {
+	public Estudiante buscarPorId(@PathVariable Integer id) {
 		
 		return this.estudianteService.buscar(id);
 
 	}
 
-    // http://localhost:8082/API/v1.0/Matricula/estudiantes/bucarByGenero?genero=F&edad=27
-	@GetMapping(path = "/bucarByGenero")
-	public List<Estudiante> buscarByGenero(@RequestParam String genero,@RequestParam Integer edad) {
-		System.out.println("Edad:"+edad);
+    // http://localhost:8082/API/v1.0/Matricula/estudiantes/bucarByGenero?genero=F
+	//Aqui si se autoriza poner un Path a la capacidad, peron o en infinitivo
+	//Aqui si se pone en la CAPACIAD y debe hacer alucion al filtro o funcionalidad.
+
+	//Nivel 1: http://localhost:8082/API/v1.0/Matricula/estudiantes/genero?genero=M
+	@GetMapping(path = "/genero")
+	public List<Estudiante> buscarByGenero(@RequestParam String genero) {
 		List<Estudiante> lista = this.estudianteService.buscarPorGenero(genero);
 		return lista;
 	}
@@ -89,7 +110,9 @@ public class EstudianteController {
 // --------------------------------------------------------------
 // USO LOS DOS EL PATH Y REQUEST
 	// http://localhost:8082/API/v1.0/Matricula/estudiantes/buscarMixto/5?prueba=HolaMundo
-	@GetMapping(path = "/buscarMixto/{id}")
+
+	// Nivel 1: http://localhost:8082/API/v1.0/Matricula/estudiantes/mixto/7
+	@GetMapping(path = "/mixto/{id}")
 	public Estudiante buscarMixto(@PathVariable Integer id,@RequestParam String prueba) {
 		System.out.println("DATO: "+id);
 		System.out.println("DATO: "+prueba);
@@ -98,8 +121,12 @@ public class EstudianteController {
 
 	}
 
-
-
+	//http://localhost:8082/API/v1.0/Matricula/estudiantes/test/4
+	@GetMapping(path = "/test/{id}")
+	public Estudiante test(@PathVariable Integer id, @RequestBody Estudiante est){
+		System.out.println(est);
+		return this.estudianteService.buscar(id);
+	}
 
 
 }
