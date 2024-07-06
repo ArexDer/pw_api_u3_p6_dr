@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,79 @@ import com.edu.uce.pw.api.repository.modelo.Estudiante;
 import com.edu.uce.pw.api.repository.modelo.Materia;
 import com.edu.uce.pw.api.service.IMateriaService;
 
+@RestController
+// PATH
+@RequestMapping(path = "/materias") // En plural al controlador que representa la ENTIDAD
+public class MateriaController {
+
+    @Autowired
+    private IMateriaService iMateriaService;
+
+    //Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias
+    @PostMapping()
+    public void guardad(@RequestBody Materia materia) {
+        this.iMateriaService.guardar(materia);
+
+    }
+
+    //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
+    @PatchMapping(path = "/{id}")
+    public void actualizarParcial(@RequestBody Materia materia,@PathVariable Integer id) {
+        
+        materia.setId(id);
+        Materia materia2 = this.iMateriaService.buscar(materia.getId());
+
+        if(materia.getNombreMateria()!=null){
+            materia2.setNombreMateria(materia.getNombreMateria());
+        }
+        if(materia.getProfesor()!=null){
+            materia2.setProfesor(materia.getProfesor());
+        }
+        if(materia.getCodigoUnico()!=null){
+            materia2.setCodigoUnico(materia.getCodigoUnico());
+        }
+        this.iMateriaService.actualizar(materia2);
+
+    }
+
+    //Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/actualizar
+    @PutMapping(path = "/{id}")
+    public void actualizar(@RequestBody Materia materia,@PathVariable Integer id) {
+        materia.setId(id);
+        this.iMateriaService.actualizar(materia);
+
+    }
+
+    //Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/1
+    @DeleteMapping(path = "/{id}")
+    public void borrar(@PathVariable Integer id) {
+        this.iMateriaService.borrar(id);
+
+    }
+
+    // Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/1
+    @GetMapping(path = "/{id}")
+    public Materia buscarPorId(@PathVariable Integer id) {
+        return this.iMateriaService.buscar(id);
+
+    }
+
+    //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/bucarPorCantidadHoras?cantHora=10
+    @GetMapping(path = "/bucarPorCantidadHoras")
+    public List<Materia> bucarPorCantidadHoras(@RequestParam Integer cantHora) {
+        List<Materia> lista = this.iMateriaService.buscarPorCantHora(cantHora);
+        return lista;
+    }
+
+
+}
+
+
+
+
+//------------------------------------------------------------------------------------
+
+/* 
 @RestController
 // PATH
 @RequestMapping(path = "/materias") // En plural al controlador que representa la ENTIDAD
@@ -67,8 +141,10 @@ public class MateriaController {
 
     // http://localhost:8080/API/v1.0/Matricula/materias/buscar
     @GetMapping(path = "/buscar")
+
+    //
     public Materia buscar() {
-        return this.iMateriaService.buscar(2);
+        return this.iMateriaService.buscar(1);
 
     }
 
@@ -80,3 +156,5 @@ public class MateriaController {
     }
 
 }
+
+*/
