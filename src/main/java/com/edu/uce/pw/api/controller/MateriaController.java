@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +33,13 @@ public class MateriaController {
     @PostMapping()
     public ResponseEntity<Materia> guardad(@RequestBody Materia materia) {
         this.iMateriaService.guardar(materia);
+        // return ResponseEntity.status(201).body(materia);
 
-        return ResponseEntity.status(201).body(materia);
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("mensaje_201", "IUngreso de un recurso");
+        cabeceras.add("mensaje_201", "Materia ingresada correctamente");
+
+        return new ResponseEntity<>(materia, cabeceras, 201);
 
     }
 
@@ -47,14 +53,21 @@ public class MateriaController {
         if (materia.getNombreMateria() != null) {
             materia2.setNombreMateria(materia.getNombreMateria());
         }
-        if (materia.getProfesor() != null) {
-            materia2.setProfesor(materia.getProfesor());
-        }
         if (materia.getCodigoUnico() != null) {
             materia2.setCodigoUnico(materia.getCodigoUnico());
         }
+        if (materia.getProfesor() != null) {
+            materia2.setProfesor(materia.getProfesor());
+        }
         this.iMateriaService.actualizar(materia2);
-        return ResponseEntity.status(239).body(materia2);
+
+        // return ResponseEntity.status(239).body(materia);
+
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("Mensaje_239", "actualizacion parcial de un recurso");
+        cabeceras.add("Mensaje_239", "Materia actualizada correctamente");
+
+        return new ResponseEntity<>(materia, cabeceras, 239);
 
     }
 
@@ -64,7 +77,13 @@ public class MateriaController {
         materia.setId(id);
         this.iMateriaService.actualizar(materia);
 
-        return ResponseEntity.status(239).body(materia);
+        // return ResponseEntity.status(238).body(materia);
+
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("Mensaje_238", "Actualizacion completa de un recurso");
+        cabeceras.add("Mensaje_238", "Materia actualizada correctamente");
+
+        return new ResponseEntity<>(materia, cabeceras, 238);
 
     }
 
@@ -72,16 +91,26 @@ public class MateriaController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> borrar(@PathVariable Integer id) {
         this.iMateriaService.borrar(id);
+        // return ResponseEntity.status(240).body("Borrado");
 
-        return ResponseEntity.status(240).body("Borrado");
+        HttpHeaders cabeceras = new HttpHeaders();
+
+        cabeceras.add("Mensaje_240", "Eliminacion de un recurso");
+        cabeceras.add("Mensaje_240", "Materia eliminada correctamente");
+
+        return new ResponseEntity<>("Recurso eliminado", cabeceras, 240);
 
     }
 
     // Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/1
     @GetMapping(path = "/{id}")
     public ResponseEntity<Materia> buscarPorId(@PathVariable Integer id) {
+        HttpHeaders cabeceras = new HttpHeaders();
 
-        return ResponseEntity.status(236).body(this.iMateriaService.buscar(id));
+        // las cabeceras manejan un esquema de clave valor
+        cabeceras.add("mensaje_236", "Corresponde a la consulta de un recurso");
+        cabeceras.add("valor", "Materia encontrada");
+        return new ResponseEntity<>(this.iMateriaService.buscar(id), cabeceras, 236);
 
     }
 
