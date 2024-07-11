@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -93,8 +94,16 @@ public class EstudianteController {
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/4
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Estudiante> buscarPorId(@PathVariable Integer id) {
-		
-		return ResponseEntity.status(236).body(this.estudianteService.buscar(id));
+		//return ResponseEntity.status(236).body(this.estudianteService.buscar(id));
+		/*
+		 * PARA ENVIAR CABECERA: LO CONTRUYO CONHTTP de SpringFramework.
+		 * Las cabeceras se manejan con Clave valor.
+		 */
+		HttpHeaders cabeceras = new HttpHeaders();
+		cabeceras.add("Mensaje_236", "Corresponde a la consulta de un RECURSO.");
+        cabeceras.add("Valor", "Estudiante Encontrado");
+		return new ResponseEntity<>(this.estudianteService.buscar(id),cabeceras,236);
+
 
 	}
 
