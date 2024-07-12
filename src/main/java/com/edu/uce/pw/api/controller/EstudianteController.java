@@ -40,7 +40,7 @@ public class EstudianteController {
 
 	// NIVEL 1 http://localhost:8080/API/v1.0/Matricula/estudiantes
 
-	@PostMapping(produces = "application/json",consumes = "application/xml")
+	@PostMapping(produces = MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estudiante> guardad(@RequestBody Estudiante estudiante) {
 		// Lo mas comun es un OBJETO COMPLETO, para este ejemplo solo un String
 		// Si deseo el Estudiante debo consultar el estudiante.
@@ -57,7 +57,7 @@ public class EstudianteController {
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/6
-	@PatchMapping(path = "/{id}", produces = "application/json",consumes = "application/xml")
+	@PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<Estudiante> actualizarParcial(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
 		estudiante.setId(id);
 
@@ -85,7 +85,7 @@ public class EstudianteController {
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/9
 
-	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_XML_VALUE)
+	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<Estudiante> actualizar(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
 		estudiante.setId(id);
 		this.estudianteService.actualizar(estudiante);
@@ -100,7 +100,7 @@ public class EstudianteController {
 	}
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/8
-	@DeleteMapping(path = "/{id}",produces = MediaType.TEXT_PLAIN_VALUE)
+	@DeleteMapping(path = "/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> borrar(@PathVariable Integer id) {
 		this.estudianteService.borrar(id);
 		// return ResponseEntity.status(240).body("Borrado");
@@ -114,7 +114,7 @@ public class EstudianteController {
 	}
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/4
-	@GetMapping(path = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estudiante> buscarPorId(@PathVariable Integer id) {
 		// return ResponseEntity.status(236).body(this.estudianteService.buscar(id));
 		/*
@@ -134,7 +134,7 @@ public class EstudianteController {
 	// funcionalidad.
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/genero?genero=M
-	@GetMapping(path = "/genero")
+	@GetMapping(path = "/genero", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Estudiante> buscarByGenero(@RequestParam String genero) {
 		List<Estudiante> lista = this.estudianteService.buscarPorGenero(genero);
 		return lista;
@@ -145,7 +145,7 @@ public class EstudianteController {
 	// http://localhost:8082/API/v1.0/Matricula/estudiantes/buscarMixto/5?prueba=HolaMundo
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/mixto/7
-	@GetMapping(path = "/mixto/{id}")
+	@GetMapping(path = "/mixto/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Estudiante buscarMixto(@PathVariable Integer id, @RequestParam String prueba) {
 		System.out.println("DATO: " + id);
 		System.out.println("DATO: " + prueba);
@@ -155,22 +155,19 @@ public class EstudianteController {
 	}
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/test/4
-	@GetMapping(path = "/test/{id}")
+	@GetMapping(path = "/test/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Estudiante test(@PathVariable Integer id, @RequestBody Estudiante est) {
 		System.out.println(est);
 		return this.estudianteService.buscar(id);
 	}
 
-
-
-
 	/*
-	 * 
+	 * CASO PARTICULAR COMO EJECMPLO DE CLASE PARA EXPLICACION
 	 */
-	//  http://localhost:8080/API/v1.0/Matricula/estudiantes/texto/plano
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/texto/plano
 	@GetMapping(path = "/texto/plano")
-	public Integer prueba(){
-		Integer prueba=12;
+	public Integer prueba() {
+		Integer prueba = 12;
 		return prueba;
 
 	}

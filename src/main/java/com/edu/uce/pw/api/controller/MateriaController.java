@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class MateriaController {
     private IMateriaService iMateriaService;
 
     // Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias
-    @PostMapping()
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<Materia> guardad(@RequestBody Materia materia) {
         this.iMateriaService.guardar(materia);
         // return ResponseEntity.status(201).body(materia);
@@ -44,7 +45,7 @@ public class MateriaController {
     }
 
     // Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
-    @PatchMapping(path = "/{id}")
+    @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<Materia> actualizarParcial(@RequestBody Materia materia, @PathVariable Integer id) {
 
         materia.setId(id);
@@ -72,7 +73,7 @@ public class MateriaController {
     }
 
     // Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/5
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<Materia> actualizar(@RequestBody Materia materia, @PathVariable Integer id) {
         materia.setId(id);
         this.iMateriaService.actualizar(materia);
@@ -88,7 +89,7 @@ public class MateriaController {
     }
 
     // Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/1
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> borrar(@PathVariable Integer id) {
         this.iMateriaService.borrar(id);
         // return ResponseEntity.status(240).body("Borrado");
@@ -103,7 +104,7 @@ public class MateriaController {
     }
 
     // Nivel 1: http://localhost:8080/API/v1.0/Matricula/materias/1
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Materia> buscarPorId(@PathVariable Integer id) {
         HttpHeaders cabeceras = new HttpHeaders();
 
@@ -116,7 +117,7 @@ public class MateriaController {
 
     // Nivel 1
     // http://localhost:8080/API/v1.0/Matricula/materias/bucarPorCantidadHoras?cantHora=10
-    @GetMapping(path = "/bucarPorCantidadHoras")
+    @GetMapping(path = "/bucarPorCantidadHoras", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Materia> bucarPorCantidadHoras(@RequestParam Integer cantHora) {
         List<Materia> lista = this.iMateriaService.buscarPorCantHora(cantHora);
         return lista;
