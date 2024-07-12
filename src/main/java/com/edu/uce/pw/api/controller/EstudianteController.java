@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +39,8 @@ public class EstudianteController {
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/guardar
 
 	// NIVEL 1 http://localhost:8080/API/v1.0/Matricula/estudiantes
-	@PostMapping()
+
+	@PostMapping(produces = "application/json",consumes = "application/xml")
 	public ResponseEntity<Estudiante> guardad(@RequestBody Estudiante estudiante) {
 		// Lo mas comun es un OBJETO COMPLETO, para este ejemplo solo un String
 		// Si deseo el Estudiante debo consultar el estudiante.
@@ -47,14 +50,14 @@ public class EstudianteController {
 		cabeceras.add("Mensaje_201", "Corresponde al ingreso de un recurso");
 		cabeceras.add("Mensaje_201", "Estudiante ingresado correctamente");
 
-		return new ResponseEntity<>(estudiante, cabeceras, 201);
+		return new ResponseEntity<>(estudiante, cabeceras, HttpStatus.CREATED);
 
 	}
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/6
-	@PatchMapping(path = "/{id}")
+	@PatchMapping(path = "/{id}", produces = "application/json",consumes = "application/xml")
 	public ResponseEntity<Estudiante> actualizarParcial(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
 		estudiante.setId(id);
 
@@ -82,7 +85,7 @@ public class EstudianteController {
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/9
 
-	@PutMapping(path = "/{id}")
+	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<Estudiante> actualizar(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
 		estudiante.setId(id);
 		this.estudianteService.actualizar(estudiante);
@@ -97,7 +100,7 @@ public class EstudianteController {
 	}
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/8
-	@DeleteMapping(path = "/{id}")
+	@DeleteMapping(path = "/{id}",produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> borrar(@PathVariable Integer id) {
 		this.estudianteService.borrar(id);
 		// return ResponseEntity.status(240).body("Borrado");
@@ -111,7 +114,7 @@ public class EstudianteController {
 	}
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/4
-	@GetMapping(path = "/{id}")
+	@GetMapping(path = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estudiante> buscarPorId(@PathVariable Integer id) {
 		// return ResponseEntity.status(236).body(this.estudianteService.buscar(id));
 		/*
@@ -156,6 +159,20 @@ public class EstudianteController {
 	public Estudiante test(@PathVariable Integer id, @RequestBody Estudiante est) {
 		System.out.println(est);
 		return this.estudianteService.buscar(id);
+	}
+
+
+
+
+	/*
+	 * 
+	 */
+	//  http://localhost:8080/API/v1.0/Matricula/estudiantes/texto/plano
+	@GetMapping(path = "/texto/plano")
+	public Integer prueba(){
+		Integer prueba=12;
+		return prueba;
+
 	}
 
 }
