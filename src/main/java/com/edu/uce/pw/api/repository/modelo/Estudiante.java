@@ -1,12 +1,14 @@
 package com.edu.uce.pw.api.repository.modelo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -35,6 +37,9 @@ public class Estudiante {
 	@Column(name = "estu_genero")
 	private String genero;
 	
+	//Uno a Muchas Materias
+	@OneToMany(mappedBy = "estudiante") //El nombre con el qeu le voy a llamar en el otro lado en ESTUDIANTE
+	private List<Materia> materias;
 	
 	
 	//Lo MANDATORIO  debe tener GET Y SET

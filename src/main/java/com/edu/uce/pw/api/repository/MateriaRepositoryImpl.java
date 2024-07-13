@@ -54,4 +54,14 @@ public class MateriaRepositoryImpl implements IMateriaRepository {
 
     }
 
+    @Override
+    public List<Materia> seleccionarPorIdEstudia(Integer id) {
+
+        TypedQuery<Materia> mQuery= this.entityManager.createQuery("SELECT m FROM Materia m WHERE m.estudiante.id = :id", Materia.class);
+        mQuery.setParameter("id", id);
+
+        return mQuery.getResultList();
+        
+    }
+
 }

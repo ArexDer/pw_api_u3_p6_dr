@@ -1,10 +1,14 @@
 package com.edu.uce.pw.api.repository.modelo;
 
+import org.hibernate.annotations.ManyToAny;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -34,6 +38,10 @@ public class Materia {
 
     @Column(name = "mat_cant_hora")
     private Integer cantHora;
+
+    @ManyToOne
+    @JoinColumn(name = "mate_id_estudiante")
+    private Estudiante estudiante; //Nombre con el qeu se va a relacionar en la Entidad Estudiante
 
     // GETTERS Y SETTERS
 

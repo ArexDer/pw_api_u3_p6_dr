@@ -1,7 +1,5 @@
 package com.edu.uce.pw.api.controller;
 
-import java.time.LocalDateTime;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.uce.pw.api.repository.modelo.Estudiante;
 import com.edu.uce.pw.api.service.IEstudianteService;
+import com.edu.uce.pw.api.service.IMateriaService;
+import com.edu.uce.pw.api.service.to.EstudianteTO;
+import com.edu.uce.pw.api.service.to.MateriaTO;
 
 @RestController
 // PATH
@@ -35,6 +36,8 @@ public class EstudianteController {
 	// Inyectamos la SERVICE
 	@Autowired
 	private IEstudianteService estudianteService;
+	@Autowired
+	private IMateriaService iMateriaService;
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/guardar
 
@@ -169,6 +172,27 @@ public class EstudianteController {
 	public Integer prueba() {
 		Integer prueba = 12;
 		return prueba;
+
+	}
+
+
+
+
+	/*
+	 * USO DE LOS  ---> TO
+	 */
+
+	//Es  estw caso se pone asi xq existe un endoPoint que choca y se le pone una diferenciacion.
+	//Importante no poner a todas, solo ucanod es necsario pongo asi.
+	//SOLO EL PATH DEBE SER LO MAS LIMPIO POSIBLE --> SOLO CUANDO SON IGUALES  PONGO UNA EXTENSION AL PATH.
+	
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/hateoas/5
+	@GetMapping(path = "/hateoas/{id}")
+	public EstudianteTO buscarHateos(@PathVariable Integer id){
+		EstudianteTO est=this.estudianteService.buscarPorId(id);
+		List<MateriaTO> lista =this.iMateriaService.buscarPorIdEstudiante(id);
+		est.setMaterias(lista);
+		return est;
 
 	}
 

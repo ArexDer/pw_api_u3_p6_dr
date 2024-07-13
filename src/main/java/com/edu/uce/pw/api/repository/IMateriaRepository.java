@@ -17,4 +17,6 @@ public interface IMateriaRepository {
 
     List<Materia> seleccionarPorCantHora(Integer cantHora);
 
+    List<Materia> seleccionarPorIdEstudia(Integer id);
+
 }
