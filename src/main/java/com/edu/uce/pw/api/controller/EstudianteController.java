@@ -3,6 +3,7 @@ package com.edu.uce.pw.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +28,9 @@ import com.edu.uce.pw.api.service.IEstudianteService;
 import com.edu.uce.pw.api.service.IMateriaService;
 import com.edu.uce.pw.api.service.to.EstudianteTO;
 import com.edu.uce.pw.api.service.to.MateriaTO;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 // PATH
@@ -88,7 +92,7 @@ public class EstudianteController {
 
 	// Nivel 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/9
 
-	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
+	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estudiante> actualizar(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
 		estudiante.setId(id);
 		this.estudianteService.actualizar(estudiante);
@@ -175,25 +179,39 @@ public class EstudianteController {
 
 	}
 
-
-
-
 	/*
-	 * USO DE LOS  ---> TO
+	 * USO DE LOS ---> TO
 	 */
 
-	//Es  estw caso se pone asi xq existe un endoPoint que choca y se le pone una diferenciacion.
-	//Importante no poner a todas, solo ucanod es necsario pongo asi.
-	//SOLO EL PATH DEBE SER LO MAS LIMPIO POSIBLE --> SOLO CUANDO SON IGUALES  PONGO UNA EXTENSION AL PATH.
-	
+	// Es estw caso se pone asi xq existe un endoPoint que choca y se le pone una
+	// diferenciacion.
+	// Importante no poner a todas, solo ucanod es necsario pongo asi.
+	// SOLO EL PATH DEBE SER LO MAS LIMPIO POSIBLE --> SOLO CUANDO SON IGUALES PONGO
+	// UNA EXTENSION AL PATH.
+
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/hateoas/5
-	@GetMapping(path = "/hateoas/{id}")
-	public EstudianteTO buscarHateos(@PathVariable Integer id){
-		EstudianteTO est=this.estudianteService.buscarPorId(id);
-		List<MateriaTO> lista =this.iMateriaService.buscarPorIdEstudiante(id);
-		est.setMaterias(lista);
+	@GetMapping(path = "/hateoas/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public EstudianteTO buscarHateos(@PathVariable Integer id) {
+		EstudianteTO est = this.estudianteService.buscarPorId(id);
+		// ES UNA CARGA EAGER (LO NECESITEO NO LO NECESITE LO TRAE)
+		// List<MateriaTO> lista = this.iMateriaService.buscarPorIdEstudiante(id);
+		// est.setMaterias(lista);
+		Link myLink = linkTo(methodOn(EstudianteController.class).buscarMateriasPorIdEstudiante(id))
+				.withRel("susMaterias");
+		// Awqui va la capacidad que reeemplaza la info con un hipervinculo.
+		est.add(myLink);
+
+		Link myLink2 = linkTo(methodOn(EstudianteController.class).buscarPorId(id)).withSelfRel();
+		est.add(myLink2);
 		return est;
 
+	}
+
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/8/materias
+	@GetMapping(path = "/{id}/materias", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<MateriaTO> buscarMateriasPorIdEstudiante(@PathVariable Integer id) {
+
+		return this.iMateriaService.buscarPorIdEstudiante(id); // Me retorna las materias de un estudiante en especifico
 	}
 
 }

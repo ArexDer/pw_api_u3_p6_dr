@@ -123,6 +123,14 @@ public class MateriaController {
         return lista;
     }
 
+    // -----------------------------------------------------------
+
+    @GetMapping(path = "/b", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Materia> bucarPorEstudiante(@RequestParam Integer id) {
+        List<Materia> lista = this.iMateriaService.buscarPorCantHora(id);
+        return lista;
+    }
+
 }
 
 // ------------------------------------------------------------------------------------

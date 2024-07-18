@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.ToString;
@@ -12,18 +14,18 @@ import lombok.ToString;
 //PERO NO NECESARIAMENTE, LOS CAMPOS QUE QUIERO QUE SEAN USSADOS EN LA CAPACIDAD/CONTROLLER
 @Data
 @ToString
-public class EstudianteTO implements Serializable {
-                                    //Implementacion IMPORTANTE
+public class EstudianteTO extends RepresentationModel<EstudianteTO> implements Serializable {
+	// Implementacion IMPORTANTE
 
-private static final long serialVersionUID = 7085562941894409723L;
+	private static final long serialVersionUID = 7085562941894409723L;
 
-    //DE MANERA PROVICIONAL
-	private List<MateriaTO> materias;
-
-    private Integer id;
+	private Integer id;
 	private String nombre;
 	private String apellido;
 	private LocalDateTime fechaNacimiento;
 	private String genero;
-    
+
+	// DE MANERA PROVICIONAL
+	// private List<MateriaTO> materias;
+
 }

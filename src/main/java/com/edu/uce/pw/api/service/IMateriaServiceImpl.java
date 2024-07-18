@@ -52,28 +52,25 @@ public class IMateriaServiceImpl implements IMateriaService {
     public List<MateriaTO> buscarPorIdEstudiante(Integer id) {
 
         List<Materia> lista = this.iMateriaRepository.seleccionarPorIdEstudia(id);
-        List<MateriaTO>listaFinal = new ArrayList<>();
+        List<MateriaTO> listaFinal = new ArrayList<>();
 
-        for(Materia mat:lista){
+        for (Materia mat : lista) {
             listaFinal.add(this.convertir(mat));
         }
 
         return listaFinal;
-        
 
     }
 
-    private MateriaTO convertir(Materia mat){
-        MateriaTO matTO= new MateriaTO();
-        matTO.setNombreMateria(matTO.getNombreMateria());
-        matTO.setCodigoUnico(matTO.getCodigoUnico());
-        matTO.setCantHora(matTO.getCantHora());
-        matTO.setProfesor(matTO.getProfesor());
+    private MateriaTO convertir(Materia mat) {
+        MateriaTO matTO = new MateriaTO();
+        matTO.setId(mat.getId());
+        matTO.setNombreMateria(mat.getNombreMateria());
+        matTO.setCodigoUnico(mat.getCodigoUnico());
+        matTO.setCantHora(mat.getCantHora());
+        matTO.setProfesor(mat.getProfesor());
         return matTO;
 
-
     }
-
-    
 
 }

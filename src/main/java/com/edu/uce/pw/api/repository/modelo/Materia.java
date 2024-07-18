@@ -2,6 +2,8 @@ package com.edu.uce.pw.api.repository.modelo;
 
 import org.hibernate.annotations.ManyToAny;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ import lombok.Data;
 @Data // DE LOMBOK para mis gettesr y setters gets,sets,equals,hashcode.
 @Entity
 @Table(name = "materia")
+@JsonIgnoreProperties(value = "estudiante")
 public class Materia {
 
     @Id
@@ -41,7 +44,7 @@ public class Materia {
 
     @ManyToOne
     @JoinColumn(name = "mate_id_estudiante")
-    private Estudiante estudiante; //Nombre con el qeu se va a relacionar en la Entidad Estudiante
+    private Estudiante estudiante; // Nombre con el qeu se va a relacionar en la Entidad Estudiante
 
     // GETTERS Y SETTERS
 

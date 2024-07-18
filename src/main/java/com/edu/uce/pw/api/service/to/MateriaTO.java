@@ -1,11 +1,11 @@
 package com.edu.uce.pw.api.service.to;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.ToString;
-
 
 //IMPORTANTE.
 //AQUI NO SE PONE LOS RELACIONAMIENTOS   ONETOMANY, MUCHTOONE....
@@ -22,5 +22,5 @@ public class MateriaTO implements Serializable {
     private String profesor;
     private String cantCredito;
     private Integer cantHora;
-    
+
 }
