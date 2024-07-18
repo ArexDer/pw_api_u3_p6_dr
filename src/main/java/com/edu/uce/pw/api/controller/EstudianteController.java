@@ -214,4 +214,20 @@ public class EstudianteController {
 		return this.iMateriaService.buscarPorIdEstudiante(id); // Me retorna las materias de un estudiante en especifico
 	}
 
+	// DEBER: SELECCIONAR TODOS LOS ESTUDIANTES CON SUS LINKS DE MATERIAS
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/todos
+	@GetMapping(path = "/todos", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<EstudianteTO> buscarTodos() {
+		List<EstudianteTO> estudiantes = this.estudianteService.buscarTodosTO();
+		estudiantes.forEach(est -> {
+			Link link = linkTo(methodOn(EstudianteController.class).buscarMateriasPorIdEstudiante(est.getId()))
+					.withRel("susMaterias");
+			est.add(link);
+
+			Link selfLink = linkTo(methodOn(EstudianteController.class).buscarHateos(est.getId())).withSelfRel();
+			est.add(selfLink);
+		});
+		return estudiantes;
+	}
+
 }

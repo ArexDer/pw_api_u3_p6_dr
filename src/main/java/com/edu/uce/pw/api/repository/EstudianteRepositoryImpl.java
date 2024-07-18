@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.edu.uce.pw.api.repository.modelo.Estudiante;
+import com.edu.uce.pw.api.service.to.EstudianteTO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -52,6 +53,26 @@ public class EstudianteRepositoryImpl implements IEstudianteRepository {
 				.createQuery("SELECT e FROM Estudiante e WHERE e.genero =:genero", Estudiante.class);
 		mQuery.setParameter("genero", genero);
 		return mQuery.getResultList();
+	}
+
+	// SELECCIONAR A TODOS LOS ESTUDIANTES
+	@Override
+	public List<Estudiante> seleccionarTodos() {
+
+		TypedQuery<Estudiante> mQuery = this.entityManager
+				.createQuery("SELECT e FROM Estudiante e", Estudiante.class);
+
+		return mQuery.getResultList();
+	}
+
+	@Override
+	public List<EstudianteTO> seleccionarTodosTO() {
+
+		TypedQuery<EstudianteTO> mQuery = this.entityManager
+				.createQuery("SELECT e FROM EstudianteT0 e", EstudianteTO.class);
+
+		return mQuery.getResultList();
+
 	}
 
 }
