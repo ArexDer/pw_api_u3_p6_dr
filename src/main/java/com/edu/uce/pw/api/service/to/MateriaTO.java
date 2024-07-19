@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 public class MateriaTO implements Serializable {
 
-    private static final long serialVersionUID = 7085562941894409723L;
+    private static final long serialVersionUID = 7085562941894405523L;
 
     private Integer id;
     private String codigoUnico;

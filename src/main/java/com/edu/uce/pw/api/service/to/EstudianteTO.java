@@ -17,8 +17,7 @@ public class EstudianteTO implements Serializable {
 
 private static final long serialVersionUID = 7085562941894409723L;
 
-    //DE MANERA PROVICIONAL
-	private List<MateriaTO> materias;
+    
 
     private Integer id;
 	private String nombre;
@@ -26,4 +25,6 @@ private static final long serialVersionUID = 7085562941894409723L;
 	private LocalDateTime fechaNacimiento;
 	private String genero;
     
+	//DE MANERA PROVICIONAL
+	private List<MateriaTO> materias;
 }

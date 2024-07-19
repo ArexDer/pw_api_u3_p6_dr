@@ -57,18 +57,19 @@ public class IMateriaServiceImpl implements IMateriaService {
         for(Materia mat:lista){
             listaFinal.add(this.convertir(mat));
         }
-
         return listaFinal;
         
 
     }
 
     private MateriaTO convertir(Materia mat){
+
         MateriaTO matTO= new MateriaTO();
         matTO.setNombreMateria(matTO.getNombreMateria());
         matTO.setCodigoUnico(matTO.getCodigoUnico());
         matTO.setCantHora(matTO.getCantHora());
         matTO.setProfesor(matTO.getProfesor());
+
         return matTO;
 
 
