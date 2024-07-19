@@ -19,6 +19,27 @@ public class EstudianteRepositoryImpl implements IEstudianteRepository {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+
+	/*
+	 * IMPLEMENTACION DE METODOS DEL TALLER 33
+	 */
+	@Override
+	public Estudiante seleccionarPorCedula(String cedula) {
+		TypedQuery<Estudiante> query = this.entityManager.createQuery("SELECT e FROM Estudiante e WHERE e.cedula= :cedula",Estudiante.class);
+		query.setParameter("cedula", cedula);
+
+		return query.getSingleResult();
+	}
+
+	@Override
+	public void eliminarPorCedula(String cedula) {
+
+		this.entityManager.remove(this.seleccionarPorCedula(cedula));
+	}
+
+
+	 //-----------------------------------------------
+
 	@Override
 	public Estudiante seleccionar(Integer id) {
 		// TODO Auto-generated method stub

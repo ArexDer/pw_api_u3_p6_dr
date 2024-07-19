@@ -25,6 +25,9 @@ public class EstudianteTO extends RepresentationModel<EstudianteTO> implements S
 	private LocalDateTime fechaNacimiento;
 	private String genero;
 
+	// ------taller 33 
+	private String cedula;
+
 	// DE MANERA PROVICIONAL
 	// private List<MateriaTO> materias;
 

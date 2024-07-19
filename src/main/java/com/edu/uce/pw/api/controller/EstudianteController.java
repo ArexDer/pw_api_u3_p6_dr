@@ -42,6 +42,83 @@ public class EstudianteController {
 	private IEstudianteService estudianteService;
 	@Autowired
 	private IMateriaService iMateriaService;
+	//-------------------------------------------------------------------------------------------------------------------
+	/*
+	 * controller del uso de los metodos del TALLER 33
+	 */
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/cedula/2 
+	@GetMapping(path = "/cedula/{cedula}", produces = "application/xml")
+		public ResponseEntity<EstudianteTO> buscarPorCedula(@PathVariable String cedula) {
+	
+			HttpHeaders cabeceras = new HttpHeaders();
+			// las cabeceras manejan un esquema de clave valor
+			cabeceras.add("mensaje_236", "Corresponde a la consulta de un recurso");
+			cabeceras.add("valor", "Estudiante encontrado");
+			return new ResponseEntity<>(this.estudianteService.buscarPorCedula(cedula), cabeceras, 236);
+		}
+
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/cedula/2 
+	@DeleteMapping(path = "/cedula/{cedula}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> borrarPorCedula(@PathVariable String cedula) {
+
+		this.estudianteService.borrarPorCedula(cedula);
+		HttpHeaders cabeceras = new HttpHeaders();
+
+		cabeceras.add("mensaje_240", "Corresponde a la eliminacion de un recurso");
+		cabeceras.add("mensaje_240", "Estudiante eliminado correctamente");
+
+		return new ResponseEntity<>("Recurso eliminado", cabeceras, 239);
+
+	}
+
+
+	
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/cedula/3 
+
+	@PutMapping(path = "/cedula/{cedula}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<Estudiante> actualizarPorCedula(@RequestBody Estudiante estudiante, @PathVariable String cedula) {
+		estudiante.setCedula(cedula);
+		this.estudianteService.actualizar(estudiante);
+		HttpHeaders cabeceras = new HttpHeaders();
+		cabeceras.add("mensaje_238", "Corresponde a la actualizacion completa de un recurso");
+		cabeceras.add("mensaje_238", "Estudiante actualizado correctamente");
+
+		return new ResponseEntity<>(estudiante, cabeceras, 238);
+
+	}
+
+	@PatchMapping(path = "/cedula/{cedula}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<Estudiante> actualizarParcialCedula(@RequestBody Estudiante estudiante, @PathVariable String cedula) {
+		estudiante.setCedula(cedula);
+
+		Estudiante estudiante2 = this.estudianteService.buscar(estudiante.getId());
+
+		if (estudiante.getNombre() != null) {
+			estudiante2.setNombre(estudiante.getNombre());
+		}
+		if (estudiante.getApellido() != null) {
+			estudiante2.setApellido(estudiante.getApellido());
+		}
+		if (estudiante.getFechaNacimiento() != null) {
+			estudiante2.setFechaNacimiento(estudiante.getFechaNacimiento());
+		}
+		if(estudiante.getCedula() != null){
+			estudiante2.setCedula(estudiante.getCedula());
+		}
+		this.estudianteService.actualizar(estudiante2);
+
+		
+		HttpHeaders cabeceras = new HttpHeaders();
+		cabeceras.add("mensaje_239", "Corresponde a la actualizacion parcial de un recurso");
+		cabeceras.add("mensaje_239", "Estudiante actualizado correctamente");
+
+		return new ResponseEntity<>(estudiante, cabeceras, 239);
+
+	}
+
+
+
+	//-----------------------------------------------------------------------------------------------------------------
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/guardar
 

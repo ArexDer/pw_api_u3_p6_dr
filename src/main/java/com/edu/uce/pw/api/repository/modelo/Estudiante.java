@@ -44,6 +44,10 @@ public class Estudiante {
 	@OneToMany(mappedBy = "estudiante") // El nombre con el qeu le voy a llamar en el otro lado en ESTUDIANTE
 	private List<Materia> materias;
 
+	@Column(name="estu_cedula")
+	private String cedula;
+
+
 	// Lo MANDATORIO debe tener GET Y SET
 
 }

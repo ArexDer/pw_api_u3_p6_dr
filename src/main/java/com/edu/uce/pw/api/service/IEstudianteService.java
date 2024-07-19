@@ -7,6 +7,14 @@ import com.edu.uce.pw.api.service.to.EstudianteTO;
 
 public interface IEstudianteService {
 
+
+    /*
+     * METODOS DEL TALLER 33
+     */
+    EstudianteTO buscarPorCedula(String cedula);
+
+    public void borrarPorCedula(String cedula);
+
     // CRUD
     public Estudiante buscar(Integer id);
 

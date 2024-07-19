@@ -16,6 +16,21 @@ public class EstudianteServiceImpl implements IEstudianteService {
 	@Autowired
 	private IEstudianteRepository estudianteRepository;
 
+
+	/*
+	 * METODOS DLE TALLER 33
+	 */
+	@Override
+	public EstudianteTO buscarPorCedula(String cedula) {
+		Estudiante estudiante = this.estudianteRepository.seleccionarPorCedula(cedula);
+		return convertir(estudiante);
+	}
+
+	@Override
+	public void borrarPorCedula(String cedula) {
+		this.estudianteRepository.eliminarPorCedula(cedula);
+	}
+
 	@Override
 	public Estudiante buscar(Integer id) {
 

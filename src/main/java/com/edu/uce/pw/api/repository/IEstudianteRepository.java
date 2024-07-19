@@ -7,6 +7,18 @@ import com.edu.uce.pw.api.service.to.EstudianteTO;
 
 public interface IEstudianteRepository {
 
+
+	/*
+	 * TALLER 33 CONTINUACION DE VUE PARA CONSUMO DE LA API
+	 * CREAR una busqueda por cedula y una eliminacion por Cedula
+	 */
+	Estudiante seleccionarPorCedula(String cedula);
+
+	public void eliminarPorCedula(String cedula);
+
+
+
+
 	// CRUD
 	public Estudiante seleccionar(Integer id);
 
