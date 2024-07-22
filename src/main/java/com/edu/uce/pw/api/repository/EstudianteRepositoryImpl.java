@@ -27,7 +27,6 @@ public class EstudianteRepositoryImpl implements IEstudianteRepository {
 	public Estudiante seleccionarPorCedula(String cedula) {
 		TypedQuery<Estudiante> query = this.entityManager.createQuery("SELECT e FROM Estudiante e WHERE e.cedula= :cedula",Estudiante.class);
 		query.setParameter("cedula", cedula);
-
 		return query.getSingleResult();
 	}
 
@@ -94,6 +93,14 @@ public class EstudianteRepositoryImpl implements IEstudianteRepository {
 
 		return mQuery.getResultList();
 
+	}
+
+	@Override
+	public void actualizarPorCedula(String cedula, Estudiante estudiante) {
+		
+		Estudiante estudianteExistente = seleccionarPorCedula(cedula);
+
+		this.entityManager.merge(estudianteExistente);
 	}
 
 }

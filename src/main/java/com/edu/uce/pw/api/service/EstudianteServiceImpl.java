@@ -10,6 +10,8 @@ import com.edu.uce.pw.api.repository.IEstudianteRepository;
 import com.edu.uce.pw.api.repository.modelo.Estudiante;
 import com.edu.uce.pw.api.service.to.EstudianteTO;
 
+import lombok.Builder;
+@Builder
 @Service
 public class EstudianteServiceImpl implements IEstudianteService {
 
@@ -29,6 +31,20 @@ public class EstudianteServiceImpl implements IEstudianteService {
 	@Override
 	public void borrarPorCedula(String cedula) {
 		this.estudianteRepository.eliminarPorCedula(cedula);
+	}
+
+	public void actualizarPorCedula(Estudiante estudiante, String cedula){
+		
+		Estudiante estuExistente =this.estudianteRepository.seleccionarPorCedula(cedula);
+		if(estuExistente!=null){
+			estuExistente.setNombre(estudiante.getNombre());
+			estuExistente.setApellido(estudiante.getApellido());
+			estuExistente.setFechaNacimiento(estudiante.getFechaNacimiento());
+			estuExistente.setGenero(estudiante.getGenero());
+
+			this.estudianteRepository.actualizarPorCedula(cedula, estuExistente);
+		}
+
 	}
 
 	@Override

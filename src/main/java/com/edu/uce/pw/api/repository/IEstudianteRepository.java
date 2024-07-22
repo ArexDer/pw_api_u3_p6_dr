@@ -16,7 +16,7 @@ public interface IEstudianteRepository {
 
 	public void eliminarPorCedula(String cedula);
 
-
+	public void actualizarPorCedula(String cedula, Estudiante estudiante);
 
 
 	// CRUD

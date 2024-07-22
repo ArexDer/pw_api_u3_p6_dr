@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -35,6 +36,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 // PATH
 @RequestMapping(path = "/estudiantes") // En plural al controlador que representa la ENTIDAD
+/* */
+@CrossOrigin(value = "http://localhost:8082") // CORS, ORIGIN, ALOW ORIGIN.. O RELACIONES -> ESTA ANOTACION, SE BLOQUEA LA SOLICITUD
+/*
+ * Con esta anotacion le autorizamos a su consumo, ponemos la IP y puerto del Cliente.
+ * se puede dajar abierto para que cualquier lo pueda consultar
+ */
 public class EstudianteController {
 
 	// Inyectamos la SERVICE
@@ -47,7 +54,7 @@ public class EstudianteController {
 	 * controller del uso de los metodos del TALLER 33
 	 */
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/cedula/2 
-	@GetMapping(path = "/cedula/{cedula}", produces = "application/xml")
+	@GetMapping(path = "/cedula/{cedula}", produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<EstudianteTO> buscarPorCedula(@PathVariable String cedula) {
 	
 			HttpHeaders cabeceras = new HttpHeaders();
@@ -75,7 +82,7 @@ public class EstudianteController {
 	
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/cedula/3 
 
-	@PutMapping(path = "/cedula/{cedula}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_XML_VALUE)
+	@PutMapping(path = "/cedula/{cedula}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estudiante> actualizarPorCedula(@RequestBody Estudiante estudiante, @PathVariable String cedula) {
 		estudiante.setCedula(cedula);
 		this.estudianteService.actualizar(estudiante);
@@ -124,7 +131,7 @@ public class EstudianteController {
 
 	// NIVEL 1 http://localhost:8080/API/v1.0/Matricula/estudiantes
 
-	@PostMapping(produces = MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estudiante> guardad(@RequestBody Estudiante estudiante) {
 		// Lo mas comun es un OBJETO COMPLETO, para este ejemplo solo un String
 		// Si deseo el Estudiante debo consultar el estudiante.
